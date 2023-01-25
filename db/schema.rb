@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_25_190349) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_25_190937) do
   create_table "accounts", force: :cascade do |t|
     t.integer "supplier_id"
     t.text "account_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["supplier_id"], name: "index_accounts_on_supplier_id"
+  end
+
+  create_table "appointments", force: :cascade do |t|
+    t.datetime "appointment_date"
+    t.integer "physician_id", null: false
+    t.integer "patient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_appointments_on_patient_id"
+    t.index ["physician_id"], name: "index_appointments_on_physician_id"
   end
 
   create_table "authors", force: :cascade do |t|
@@ -51,5 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_25_190349) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "appointments", "patients"
+  add_foreign_key "appointments", "physicians"
   add_foreign_key "books", "authors"
 end
